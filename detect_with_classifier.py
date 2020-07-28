@@ -20,6 +20,10 @@ ap.add_argument("-c", "--min-conf", type=float, default=0.9,
                 help="minimum probability to filter weak detections")
 ap.add_argument("-v", "--visualize", type=int, default=-1,
                 help="whether or not to show extra visualizations for debugging")
+
+ap.add_argument("-gc", "--googlecolab", type=bool, default=True,
+                help="whether or not to show extra visualizations for debugging")
+
 args = vars(ap.parse_args())
 
 WIDTH = 600
@@ -126,7 +130,12 @@ for label in labels.keys():
     # show the results *before* applying non-maxima suppression, then
     # clone the image again so we can display the results *after*
     # applying non-maxima suppression
-    cv2.imshow("Before", clone)
+
+    if eval(args["googlecolab"]):
+        cv2.imwrite("Before.jpg", clone)
+    else:
+        cv2.imshow("Before", clone)
+
     clone = orig.copy()
 
     # extract the bounding boxes and associated prediction
@@ -144,5 +153,8 @@ for label in labels.keys():
         cv2.putText(clone, label, (startX, y),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 255, 0), 2)
     # show the output after apply non-maxima suppression
-    cv2.imshow("After", clone)
-    cv2.waitKey(0)
+    if eval(args["googlecolab"]):
+        cv2.imwrite("After.jpg", clone)
+    else:
+        cv2.imshow("After", clone)
+        cv2.waitKey(0)
