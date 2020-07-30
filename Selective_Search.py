@@ -52,7 +52,7 @@ for i in range(0, len(rects), 100):
         color = [random.randint(0, 255) for j in range(0, 3)]
         cv2.rectangle(output, (x, y), (x + w, y + h), color, 2)
     # show the output image
-    if eval(args["googlecolab"]):
+    if args["googlecolab"]:
         cv2.imwrite("detected.jpg", output)
     else:
         cv2.imshow("Output", output)
